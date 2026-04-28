@@ -1,9 +1,17 @@
+<div align="center">
+
 # ⚖️ Contract Voice Agent
 
 > Open-source voice AI agent that lets you upload a PDF contract, then **ask questions about it by voice**. The agent pre-analyses every clause for risk, explains complex terms in plain language, and answers follow-up questions conversationally — no typing required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
+[![FastAPI 0.111.0+](https://img.shields.io/badge/FastAPI-0.111.0%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![qdrant-client 1.9.0+](https://img.shields.io/badge/qdrant--client-1.9.0%2B-FA0F4E?logo=qdrant&logoColor=white)](https://qdrant.tech/)
+[![React 18.3.1](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite 5.3.1](https://img.shields.io/badge/Vite-5.3.1-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+
+</div>
 
 ---
 
@@ -93,7 +101,7 @@ cp .env.example .env
 docker compose up
 ```
 
-Then open **http://localhost:3000** in your browser, upload a PDF contract, and start talking. 🎙️
+Then open **<http://localhost:3000>** in your browser, upload a PDF contract, and start talking. 🎙️
 
 > **First run note:** The backend Docker image pre-downloads the `BAAI/bge-base-en-v1.5` embedding model during build (~440 MB). This happens once; subsequent starts are fast.
 
@@ -229,6 +237,7 @@ We welcome contributions! Here is how to add a new **clause type detector**.
 1. **Open `backend/ingest.py`** and locate the `_CLAUSE_TYPE_KEYWORDS` dictionary.
 
 2. **Add your new type** with a list of trigger keywords:
+
    ```python
    _CLAUSE_TYPE_KEYWORDS: dict[str, list[str]] = {
        ...
@@ -237,6 +246,7 @@ We welcome contributions! Here is how to add a new **clause type detector**.
    ```
 
 3. **Update the `clause_type` enum** in `backend/voice_session.py` inside `build_session_config()` so the voice agent can filter by it:
+
    ```python
    "enum": [
        "liability", "termination", "payment", "IP",
@@ -247,6 +257,7 @@ We welcome contributions! Here is how to add a new **clause type detector**.
    ```
 
 4. **Add a chart colour** in `frontend/src/components/RiskDashboard.jsx` inside `clauseTypeColor()`:
+
    ```js
    arbitration: '#06b6d4',
    ```
