@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
 [![FastAPI 0.111.0+](https://img.shields.io/badge/FastAPI-0.111.0%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Qdrant 1.9.0+](https://img.shields.io/badge/Qdrant-1.9.0%2B-FA0F4E?logo=qdrant&logoColor=white)](https://qdrant.tech/)
+[![qdrant-client 1.9.0+](https://img.shields.io/badge/qdrant--client-1.9.0%2B-FA0F4E?logo=qdrant&logoColor=white)](https://qdrant.tech/)
 [![React 18.3.1](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
 [![Vite 5.3.1](https://img.shields.io/badge/Vite-5.3.1-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
