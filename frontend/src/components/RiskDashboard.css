@@ -1,0 +1,150 @@
+.dashboard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.dashboard-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* ── Risk pills ────────────────────────────────────────────────────────────── */
+.risk-pills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.risk-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 10px;
+  min-width: 90px;
+  flex: 1;
+}
+
+.risk-pill--high   { background: rgba(239,68,68,0.15);  border: 1px solid rgba(239,68,68,0.4); }
+.risk-pill--medium { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); }
+.risk-pill--low    { background: rgba(34,197,94,0.15);  border: 1px solid rgba(34,197,94,0.4); }
+
+.pill-count {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.risk-pill--high   .pill-count { color: var(--danger); }
+.risk-pill--medium .pill-count { color: var(--warning); }
+.risk-pill--low    .pill-count { color: var(--success); }
+
+.pill-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.pill-pct {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.total-chunks {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ── Flagged clause cards ────────────────────────────────────────────────── */
+.flagged-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flagged-card {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: left;
+  border: 1px solid transparent;
+  width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.flagged-card:hover {
+  border-color: var(--accent);
+  background: rgba(99,102,241,0.08);
+}
+
+.flagged-card.risk-high   { border-left: 3px solid var(--danger); }
+.flagged-card.risk-medium { border-left: 3px solid var(--warning); }
+.flagged-card.risk-low    { border-left: 3px solid var(--success); }
+
+.flagged-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+/* ── Inline risk badges ─────────────────────────────────────────────────────── */
+.risk-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+.risk-badge.risk-high   { background: rgba(239,68,68,0.2);  color: #fca5a5; }
+.risk-badge.risk-medium { background: rgba(245,158,11,0.2); color: #fcd34d; }
+.risk-badge.risk-low    { background: rgba(34,197,94,0.2);  color: #86efac; }
+
+.clause-type-tag {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.page-ref {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.flagged-reason {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fca5a5;
+  margin-bottom: 4px;
+}
+
+.flagged-plain {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
