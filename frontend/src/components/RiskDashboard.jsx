@@ -24,28 +24,30 @@ import './RiskDashboard.css'
  *   onClauseSelect  (clause) => void  - Callback when user clicks a flagged clause.
  */
 export default function RiskDashboard({ analysis, onClauseSelect }) {
-  if (!analysis) return null
-
-  const { total_chunks, high, medium, low, top_flagged } = analysis
-
   const riskPercent = useMemo(() => {
-    if (!total_chunks) return { high: 0, medium: 0, low: 0 }
+    if (!analysis || !analysis.total_chunks) return { high: 0, medium: 0, low: 0 }
+    const { total_chunks, high, medium, low } = analysis
     return {
       high: Math.round((high / total_chunks) * 100),
       medium: Math.round((medium / total_chunks) * 100),
       low: Math.round((low / total_chunks) * 100),
     }
-  }, [total_chunks, high, medium, low])
+  }, [analysis])
 
   // Derive clause-type counts from top_flagged for the bar chart.
   const clauseTypeCounts = useMemo(() => {
     const counts = {}
-    ;(top_flagged || []).forEach((c) => {
+    if (!analysis) return []
+    ;(analysis.top_flagged || []).forEach((c) => {
       const t = c.clause_type || 'other'
       counts[t] = (counts[t] || 0) + 1
     })
     return Object.entries(counts).map(([type, count]) => ({ type, count }))
-  }, [top_flagged])
+  }, [analysis])
+
+  if (!analysis) return null
+
+  const { total_chunks, high, medium, low, top_flagged } = analysis
 
   return (
     <div className="dashboard">

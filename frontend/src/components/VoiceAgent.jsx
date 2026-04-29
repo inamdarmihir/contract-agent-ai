@@ -58,7 +58,7 @@ export default function VoiceAgent({ collectionId, apiBase }) {
     playbackQueueRef.current.push(buffer)
 
     if (!isPlayingRef.current) playNextChunk()
-  }, [])
+  }, [playNextChunk])
 
   const playNextChunk = useCallback(() => {
     if (!audioCtxRef.current || playbackQueueRef.current.length === 0) {
@@ -148,10 +148,6 @@ export default function VoiceAgent({ collectionId, apiBase }) {
 
       // Connect to backend WebSocket proxy
       const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
-      const wsHost = apiBase.replace(/^https?:\/\//, '').replace(/^\/api/, '')
-      const wsBase = wsHost
-        ? `${wsProtocol}://${wsHost}`
-        : `${wsProtocol}://${window.location.host}`
       const wsUrl = apiBase.startsWith('http')
         ? `${wsProtocol}://${apiBase.replace(/^https?:\/\//, '')}/voice/proxy/${collectionId}`
         : `${wsProtocol}://${window.location.host}/api/voice/proxy/${collectionId}`
@@ -180,7 +176,35 @@ export default function VoiceAgent({ collectionId, apiBase }) {
       setError(e.message)
       setStatus('error')
     }
-  }, [collectionId, apiBase, handleMessage])
+  }, [collectionId, apiBase, handleMessage, startMicCapture, stopSession])
+
+  // ── Stop session ───────────────────────────────────────────────────────────
+
+  const stopSession = useCallback(() => {
+    if (processorRef.current) {
+      processorRef.current.disconnect()
+      processorRef.current = null
+    }
+    if (sourceNodeRef.current) {
+      sourceNodeRef.current.disconnect()
+      sourceNodeRef.current = null
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop())
+      streamRef.current = null
+    }
+    if (wsRef.current) {
+      wsRef.current.close()
+      wsRef.current = null
+    }
+    if (audioCtxRef.current) {
+      audioCtxRef.current.close()
+      audioCtxRef.current = null
+    }
+    playbackQueueRef.current = []
+    isPlayingRef.current = false
+    setStatus('idle')
+  }, [])
 
   // ── Microphone capture ─────────────────────────────────────────────────────
 
@@ -216,34 +240,6 @@ export default function VoiceAgent({ collectionId, apiBase }) {
     source.connect(processor)
     processor.connect(ctx.destination)
   }, [isMuted])
-
-  // ── Stop session ───────────────────────────────────────────────────────────
-
-  const stopSession = useCallback(() => {
-    if (processorRef.current) {
-      processorRef.current.disconnect()
-      processorRef.current = null
-    }
-    if (sourceNodeRef.current) {
-      sourceNodeRef.current.disconnect()
-      sourceNodeRef.current = null
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop())
-      streamRef.current = null
-    }
-    if (wsRef.current) {
-      wsRef.current.close()
-      wsRef.current = null
-    }
-    if (audioCtxRef.current) {
-      audioCtxRef.current.close()
-      audioCtxRef.current = null
-    }
-    playbackQueueRef.current = []
-    isPlayingRef.current = false
-    setStatus('idle')
-  }, [])
 
   // Cleanup on unmount
   useEffect(() => () => stopSession(), [stopSession])
