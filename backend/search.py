@@ -19,10 +19,6 @@ from qdrant_client.http.models import (
     Filter,
     FieldCondition,
     MatchValue,
-    SparseVector,
-    NamedVector,
-    NamedSparseVector,
-    SearchRequest,
     ScoredPoint,
 )
 
@@ -62,7 +58,7 @@ def _build_filter(
         )
     if not conditions:
         return None
-    from qdrant_client.http.models import Filter as QFilter, Must
+    from qdrant_client.http.models import Filter as QFilter
     return QFilter(must=conditions)
 
 
@@ -128,7 +124,7 @@ def hybrid_search(
     if has_sparse:
         # ── Hybrid search with RRF fusion ─────────────────────────────────────
         try:
-            from qdrant_client.http.models import Prefetch, Query, FusionQuery, Fusion
+            from qdrant_client.http.models import Prefetch, FusionQuery, Fusion
 
             prefetch = [
                 Prefetch(

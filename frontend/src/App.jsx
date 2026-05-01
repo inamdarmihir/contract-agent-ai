@@ -25,6 +25,30 @@ export default function App() {
   const [selectedClause, setSelectedClause] = useState(null)
   const [error, setError] = useState(null)
 
+  /** Poll the analysis endpoint until it completes. */
+  const pollAnalysis = useCallback(async (cid) => {
+    const poll = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/contracts/${cid}/analysis`)
+        const data = await res.json()
+        if (data.status === 'complete') {
+          setAnalysis(data.data)
+          setPhase('ready')
+        } else if (data.status === 'error') {
+          setError(data.message ?? 'Risk analysis failed')
+          setPhase('idle')
+        } else {
+          // Still processing — try again in 2 seconds.
+          setTimeout(poll, 2000)
+        }
+      } catch (e) {
+        setError(e.message)
+        setPhase('idle')
+      }
+    }
+    setTimeout(poll, 2000)
+  }, [])
+
   /** Called by UploadZone when the user drops / selects a PDF. */
   const handleUpload = useCallback(async (file) => {
     setError(null)
@@ -50,31 +74,7 @@ export default function App() {
       setError(e.message)
       setPhase('idle')
     }
-  }, [])
-
-  /** Poll the analysis endpoint until it completes. */
-  const pollAnalysis = useCallback(async (cid) => {
-    const poll = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/contracts/${cid}/analysis`)
-        const data = await res.json()
-        if (data.status === 'complete') {
-          setAnalysis(data.data)
-          setPhase('ready')
-        } else if (data.status === 'error') {
-          setError(data.message ?? 'Risk analysis failed')
-          setPhase('idle')
-        } else {
-          // Still processing — try again in 2 seconds.
-          setTimeout(poll, 2000)
-        }
-      } catch (e) {
-        setError(e.message)
-        setPhase('idle')
-      }
-    }
-    setTimeout(poll, 2000)
-  }, [])
+  }, [pollAnalysis])
 
   /** Reset the app to the initial state. */
   const handleReset = () => {

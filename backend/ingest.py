@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Any
 
 import pdfplumber
-from llama_index.core import Document, Settings as LISettings
+from llama_index.core import Document
 from llama_index.core.node_parser import SentenceSplitter
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import (
@@ -87,7 +87,7 @@ def _extract_pages(pdf_path: Path) -> list[dict[str, Any]]:
         for page_obj in pdf.pages:
             raw = page_obj.extract_text() or ""
             lines = raw.splitlines()
-            headers = [l.strip() for l in lines if _is_header_line(l)]
+            headers = [line.strip() for line in lines if _is_header_line(line)]
             pages.append(
                 {
                     "page_number": page_obj.page_number,
